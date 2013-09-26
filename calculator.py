@@ -97,18 +97,9 @@ def validate_input(tokens):
                             operation3(integer_tokens)
                         else: 
                             print "Not enough operands, use two or more. [EX: add 3 6]"
+                            
                     else:
                         print "You really screwed this up. >_>"
-
-                    # # check number of tokens
-                    # if token_len == 2 and operator in ["square", "cube"]:  
-                    #     operation1(integer_tokens)
-                    # elif token_len == 3 and operator in ["/", "pow", "mod"]:
-                    #     operation2(integer_tokens)
-                    # elif token_len >= 3 and operator in ["+", "-", "*"]:
-                    #     operation3(integer_tokens)
-                    # else:
-                    #     print "Invalid number of arguments provided."
                 else: 
                     print "Use integers only for arithmetic."
 
@@ -126,7 +117,7 @@ def main():
     user_input = raw_input("> ")
 
     while user_input is not "q":
-        tokens = user_input.split(" ")
+        tokens = user_input.split()
         validate_input(tokens)
         user_input = raw_input("> ")
 
