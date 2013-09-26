@@ -46,13 +46,19 @@ def operation3(tokens):
 
 # checks to make sure all the inputs are integers
 def validate_operands(tokens):
+    bad_tokens = 0
+
     for i in range(len(tokens[1:])):
         try:
             tokens[i+1] = int(tokens[i+1])
         except:
-            return False
-
-    return True
+            bad_tokens += 1
+            print "%s is a bad input!" % tokens[i+1]
+            
+    if bad_tokens > 0:
+        return False
+    else:
+        return True
 
 
 def convert_to_ints(tokens):
@@ -65,42 +71,63 @@ def validate_input(tokens):
     operator = tokens[0]
     token_len = len(tokens)
 
-    if operator and operator in ["+", "-", "*","/", "pow", "mod","square", "cube"] and len(tokens) >= 2:
+    if operator:
+        if operator in ["+", "-", "*","/", "pow", "mod","square", "cube"]:
+            if len(tokens) >= 2:
 
-        # returns two outputs, a boolean stating whether a new list has valid
-        # operators and a new list of tokens that have integers now
-        if validate_operands(tokens):
-            integer_tokens = convert_to_ints(tokens)
+                # returns two outputs, a boolean stating whether a new list has valid
+                # operators and a new list of tokens that have integers now
+                if validate_operands(tokens):
+                    integer_tokens = convert_to_ints(tokens)
 
-            # check number of tokens
-            if token_len == 2 and operator in ["square", "cube"]:  
-                operation1(integer_tokens)
-            elif token_len == 3 and operator in ["/", "pow", "mod"]:
-                operation2(integer_tokens)
-            elif token_len >= 3 and operator in ["+", "-", "*"]:
-                operation3(integer_tokens)
-            else:
-                print "Invalid number of arguments provided."
-                
-        else: 
-            print "Invalid operands."
+                    if operator in ["square", "cube"]:
+                        if token_len  == 2: 
+                            operation1(integer_tokens)
+                        else: 
+                            print "Too many operands, only use one. [EX: cube 5]"
+                    elif operator in ["/", "pow", "mod"]:
+                        if token_len  == 3: 
+                            operation2(integer_tokens)
+                        elif token_len > 3: 
+                            print "Too many operands, only use two. [EX: pow 3 6]"
+                        elif token_len < 3:
+                            print "Not enough operands, only use two. [EX: pow 3 6]"
+                    elif operator in ["+", "-", "*"]:
+                        if token_len  >= 3: 
+                            operation3(integer_tokens)
+                        else: 
+                            print "Not enough operands, use two or more. [EX: add 3 6]"
+                    else:
+                        print "You really screwed this up. >_>"
 
+                    # # check number of tokens
+                    # if token_len == 2 and operator in ["square", "cube"]:  
+                    #     operation1(integer_tokens)
+                    # elif token_len == 3 and operator in ["/", "pow", "mod"]:
+                    #     operation2(integer_tokens)
+                    # elif token_len >= 3 and operator in ["+", "-", "*"]:
+                    #     operation3(integer_tokens)
+                    # else:
+                    #     print "Invalid number of arguments provided."
+                else: 
+                    print "Use integers only for arithmetic."
+
+            else: 
+                print "No operands. Needs integer(s) to calculate."
+        else:
+            print "Invalid operator used. Only use: '+', '-', '*','/', 'pow', 'mod', 'square', 'cube'"
     else:
-        print "Invalid operation."
+        print "No operator and operation exists."
 
 
 
 def main():
-
     # continually allow the user to enter input(s) until they want to quit (q)
-    input = raw_input("> ")
+    user_input = raw_input("> ")
 
-    while input is not "q":
-        tokens = input.split(" ")
+    while user_input is not "q":
+        tokens = user_input.split(" ")
         validate_input(tokens)
-        input = raw_input("> ")     
-
-    # end of function
-    exit()
+        user_input = raw_input("> ")
 
 main()
